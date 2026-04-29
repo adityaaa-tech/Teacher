@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Teacher</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{overflow:hidden;font-family:'Playfair Display',serif;}
+
+/* SCREENS */
+.screen{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  transform:translateX(100%);
+  transition:transform 0.7s ease;
+}
+
+.screen.active{transform:translateX(0);}
+.screen.exit{transform:translateX(-100%);}
+
+#screen1{background:radial-gradient(circle,#fdf6ec,#f1e3d3);}
+#screen2{background:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+#screen3{background:#fdf6ec;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px;}
+#screen4{background:#fff;display:flex;justify-content:center;align-items:center;text-align:center;padding:20px;}
+
+/* BUTTON */
+.next-btn{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:14px 36px;
+  border:none;
+  border-radius:30px;
+  background:#123b8b;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  z-index:10;
+  display:none;
+}
+
+/* CURTAIN */
+.curtain-wrapper{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:-100%;
+  display:flex;
+  z-index:5;
+  cursor:pointer;
+}
+
+.drop{animation:drop 1.2s ease-out forwards;}
+
+@keyframes drop{
+  0%{top:-100%;}
+  70%{top:10px;}
+  85%{top:-5px;}
+  100%{top:0;}
+}
+
+.curtain{
+  width:50%;
+  height:100%;
+  background:repeating-linear-gradient(
+    to right,
+    #081a3a 0px,
+    #081a3a 8px,
+    #123b8b 16px,
+    #081a3a 24px
+  );
+  transition:transform 1.5s ease;
+}
+
+.open .left{transform:translateX(-120%);}
+.open .right{transform:translateX(120%);}
+.open{pointer-events:none;}
+
+.tap-text{
+  position:absolute;
+  bottom:40px;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:20px;
+}
+.open .tap-text{display:none;}
+
+/* MESSAGE */
+.message{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  font-size:34px;
+  color:#d11a2a;
+  opacity:0;
+  transition:1s;
+}
+.show{opacity:1;}
+
+/* SCREEN 2 */
+.text{
+  font-size:30px;
+  color:#d11a2a;
+  font-style:italic;
+  padding:20px;
+}
+#screen2 img{width:200px;margin-top:20px;}
+
+/* SCREEN 3 */
+.line{
+  opacity:0;
+  margin:10px 0;
+  font-size:18px;
+  color:#d11a2a;
+  transition:opacity 1s;
+}
+.show-line{opacity:1;}
+
+/* SCREEN 4 */
+.final-text{
+  font-size:34px;
+  color:#d11a2a;
+  font-style:italic;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<div id="screen1" class="screen active">
+  <div class="curtain-wrapper" id="curtain">
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
+    <div class="tap-text">Tap to open</div>
+  </div>
+
+  <div class="message" id="message">
+    Thank you for being the best teacher I can ever have 💖
+  </div>
+
+  <button class="next-btn" id="next1">Next</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div id="screen2" class="screen">
+  <div class="text">
+    You are not just a good teacher but a perfect mentor!!
+  </div>
+  <img src="first.gif">
+  <button class="next-btn" id="next2" style="display:block;">Next</button>
+</div>
+
+<!-- SCREEN 3 -->
+<div id="screen3" class="screen">
+  <div class="line">English wasn’t my favorite subject… until you started teaching it.</div>
+  <div class="line">Grammar felt confusing… until you made it make sense.</div>
+  <div class="line">I used to avoid speaking… now I look for chances to.</div>
+  <div class="line">Your class never felt like a lecture… it felt like a conversation.</div>
+  <div class="line">Mistakes didn’t feel embarrassing in your class… they felt like progress.</div>
+  <div class="line">Some lessons ended in class… yours stayed with me outside it.</div>
+
+  <button class="next-btn" id="next3">Next</button>
+</div>
+
+<!-- SCREEN 4 -->
+<div id="screen4" class="screen">
+  <div class="final-text">
+    I may forget chapters…<br>
+    but I will never forget you.
+               💐
+  </div>
+</div>
+
+<script>
+const curtain=document.getElementById('curtain');
+const message=document.getElementById('message');
+
+const next1=document.getElementById('next1');
+const next2=document.getElementById('next2');
+const next3=document.getElementById('next3');
+
+const s1=document.getElementById('screen1');
+const s2=document.getElementById('screen2');
+const s3=document.getElementById('screen3');
+const s4=document.getElementById('screen4');
+
+/* DROP */
+window.onload=()=>{curtain.classList.add('drop');};
+
+/* OPEN */
+curtain.onclick=()=>{
+  curtain.classList.add('open');
+  message.classList.add('show');
+
+  setTimeout(()=>{ next1.style.display="block"; },1200);
+};
+
+/* NAVIGATION */
+next1.onclick=()=>{
+  s1.classList.add('exit');
+  s2.classList.add('active');
+};
+
+next2.onclick=()=>{
+  s2.classList.add('exit');
+  s3.classList.add('active');
+  startText();
+};
+
+next3.onclick=()=>{
+  s3.classList.add('exit');
+  s4.classList.add('active');
+};
+
+/* TEXT ANIMATION */
+function startText(){
+  const lines=document.querySelectorAll('.line');
+  lines.forEach((line,i)=>{
+    setTimeout(()=>{
+      line.classList.add('show-line');
+    },i*3000);
+  });
+
+  // Show next button after all lines appear
+  setTimeout(()=>{
+    next3.style.display="block";
+  },lines.length * 3000);
+}
+</script>
+
+</body>
+</html>
